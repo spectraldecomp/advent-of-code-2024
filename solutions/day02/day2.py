@@ -1,7 +1,7 @@
 import numpy as np
 
 
-# lines = open('solutions/day02/sample.text').read().splitlines()
+# lines = open('solutions/day02/sample.txt').read().splitlines()
 lines = open('solutions/day02/input.txt').read().splitlines()
 slines = [list(map(int, line.split())) for line in lines]
 
