@@ -4,8 +4,7 @@ lines = open('solutions/day07/sample.txt').read().splitlines()
 # lines = open('solutions/day07/input.txt').read().splitlines()
 
 
-def evaluate_left_to_right(nums, ops):
-    """Evaluate an expression left-to-right using the given numbers and operators."""
+def evaluate(nums, ops):
     result = nums[0]
     for num, op in zip(nums[1:], ops):
         if op == '+':
@@ -26,7 +25,7 @@ for line in lines:
     operators = ['+', '*', '||']
     valid = False
     for ops in product(operators, repeat=len(nums) - 1):
-        if evaluate_left_to_right(nums, ops) == target:
+        if evaluate(nums, ops) == target:
             valid = True
             break
     if valid:
