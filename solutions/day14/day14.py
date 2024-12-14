@@ -1,5 +1,5 @@
 import numpy as np
-import itertools
+from collections import defaultdict
 import matplotlib.pyplot as plt
 
 
@@ -39,14 +39,10 @@ for line in input.strip().split("\n"):
 
 positions = simulate(robots, width=101, height=103, steps=100)
 q1, q2, q3, q4 = count_quadrants(positions, width=101, height=103)
-print(q1, q2, q3, q4)
-print(q1 * q2 * q3 * q4)
+print("p1", q1 * q2 * q3 * q4)
 
 def vis(positions, width, height, steps):
-    mid_x, mid_y = width // 2, height // 2
-
     x_coords, y_coords = zip(*positions)
-
     plt.figure(figsize=(8, 8))
     plt.scatter(x_coords, y_coords, c='blue')
     
@@ -56,10 +52,30 @@ def vis(positions, width, height, steps):
     plt.legend()
     plt.grid(True)
     plt.show()
+    
+    
+def simulate2(robots, width, height, steps):
+    new_robots = []
+    for (px, py), (vx, vy) in robots:
+        new_x = (px + steps * vx) % width
+        new_y = (py + steps * vy) % height
+        new_robots.append(((new_x, new_y), (vx, vy)))
+    return new_robots
 
 #p2
-for i in range(100):
-    positions = simulate(robots, width=101, height=103, steps=i)
-    vis(positions, width=101, height=103, steps=i)
+min_safety = float('inf')
+for i in range(10000):
+    robots = simulate2(robots, width=101, height=103, steps=1)
+    q1, q2, q3, q4 = count_quadrants([pos for pos, _ in robots], width=101, height=103)
+    safety = q1 * q2 * q3 * q4
+    if safety < min_safety:
+        min_safety = safety
+        best_step = i
+
+print("p2", best_step)
+
+print("Done")
+    
+    
 
 
